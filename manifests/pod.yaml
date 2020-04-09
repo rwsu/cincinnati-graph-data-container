@@ -13,7 +13,7 @@ spec:
       priviledged: true
     volumeMounts:
       - name: cincinnati-graph-data
-        mountPath: /tmp/cincinnati-graph-data 
+        mountPath: /mnt/cincinnati-graph-data 
   initContainers:
   - name: init-cincinnati-graph-data
     image:  quay.io/rwsu/cincinnati-graph-data-container:latest
@@ -21,11 +21,10 @@ spec:
       priviledged: true
     volumeMounts:
       - name: cincinnati-graph-data
-        mountPath: /tmp/cincinnati-graph-data 
+        mountPath: /mnt/cincinnati-graph-data 
   securityContext: {}
   volumes:
     - name: cincinnati-graph-data
-      persistentVolumeClaim:
-        claimName: cincinnati-pvc-volume
+      emptyDir: {}
 
  
