@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: init-graph-data-test
+  labels:
+    app: rwsu
+spec:
+  containers:
+  - name: always-running-container
+    image: busybox:1.28
+    command: ['sh', '-c', 'echo The app is running! && sleep 3600']
+    securityContext:
+      priviledged: true
+    volumeMounts:
+      - name: cincinnati-graph-data
+        mountPath: /tmp/cincinnati-graph-data 
+  initContainers:
+  - name: init-cincinnati-graph-data
+    image:  quay.io/rwsu/cincinnati-graph-data-container:latest
+    securityContext:
+      priviledged: true
+    volumeMounts:
+      - name: cincinnati-graph-data
+        mountPath: /tmp/cincinnati-graph-data 
+  securityContext: {}
+  volumes:
+    - name: cincinnati-graph-data
+      persistentVolumeClaim:
+        claimName: cincinnati-pvc-volume
+
+ 
